@@ -1,33 +1,27 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { auth } from "./firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "expo-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "./firebase"; // Firebase-config
 
-export default function LoginScreen() {
-  const router = useRouter();
-  const auth = getAuth(app);
-
+export default function RegisterScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter(); // Navigointi
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.replace("/home"); // Vie käyttäjä Home-sivulle
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.replace("/"); // Ohjaa kirjautumissivulle
     } catch (error) {
-      setError("Kirjautuminen epäonnistui: " + error.message);
+      setError(error.message);
     }
-  };
-
-  const handleGoToRegister = () => {
-    router.replace("/register"); // Siirtyy rekisteröitymissivulle
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Kirjaudu sisään</Text>
+      <Text style={styles.title}>Rekisteröidy</Text>
       <TextInput
         style={styles.input}
         placeholder="Sähköposti"
@@ -45,11 +39,11 @@ export default function LoginScreen() {
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
       <View style={styles.buttonContainer}>
-      <Button title="Kirjaudu" onPress={handleLogin} />
+      <Button title="Luo tili" onPress={handleRegister} />
       </View>
 
       <View style={styles.buttonContainer}>
-      <Button title="Ei tiliä? Rekisteröidy" onPress={handleGoToRegister} />
+      <Button title="Takaisin kirjautumiseen" onPress={() => router.replace("/")} />
       </View>
     </View>
   );

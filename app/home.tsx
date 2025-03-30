@@ -1,4 +1,4 @@
-import { View, Text, Button, Image } from "react-native";
+import { View, Text, Button, Image, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
@@ -24,18 +24,33 @@ export default function HomeScreen() {
 
   const handleLogout = async () => {
     await signOut(auth);
-    router.replace("/"); // ✅ Vie takaisin kirjautumissivulle
+    router.replace("/"); // Vie takaisin kirjautumissivulle
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={styles.container}>
       <Text style={{ fontSize: 20, marginBottom: 20 }}>Ota kuva suustasi</Text>
-
-      <Button title="📷 Ota kuva" onPress={takePhoto} />
+        <View style={styles.buttonContainer}>
+        <Button title="📷 Ota kuva" onPress={takePhoto} />
+        </View>
 
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 20 }} />}
-
+      <View style={styles.buttonContainer}>
       <Button title="Kirjaudu ulos" onPress={handleLogout} />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create( {
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
+        backgroundColor: "#d8f3dc"
+      },
+    buttonContainer: {
+        marginVertical: 10,
+      },
+});
