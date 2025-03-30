@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "./firebase"; // Firebase-config
+import Header from "../components/header";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -15,11 +16,12 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.replace("/home"); // Vie käyttäjä Home-sivulle
-    } catch (error) {
-      setError("Kirjautuminen epäonnistui: " + error.message);
+      router.replace("/home"); // Vie käyttäjän Home-sivulle
+    } catch (error: any) {  // 🔹 Lisätty "any" -tyyppi
+      setError("Kirjautuminen epäonnistui: " + (error.message || "Tuntematon virhe"));
     }
   };
+  
 
   const handleGoToRegister = () => {
     router.replace("/register"); // Siirtyy rekisteröitymissivulle
@@ -27,6 +29,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
+      <Header />
       <Text style={styles.title}>Kirjaudu sisään</Text>
       <TextInput
         style={styles.input}
@@ -67,14 +70,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    color: "#081C15",
   },
   input: {
     width: "80%",
     padding: 10,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#2D6A4F",
     borderRadius: 5,
+    color: "#081C15",
   },
   error: {
     color: "red",

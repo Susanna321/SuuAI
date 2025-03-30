@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { auth } from "./firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "expo-router";
+import Header from "../components/header";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");
@@ -14,13 +15,15 @@ export default function RegisterScreen() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       router.replace("/"); // Ohjaa kirjautumissivulle
-    } catch (error) {
-      setError(error.message);
+    } catch (error: any) {  // 🔹 Lisätty "any" -tyyppi
+      setError(error.message || "Rekisteröinti epäonnistui.");
     }
   };
+  
 
   return (
     <View style={styles.container}>
+      <Header />
       <Text style={styles.title}>Rekisteröidy</Text>
       <TextInput
         style={styles.input}
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#2D6A4F",
     borderRadius: 5,
   },
   error: {

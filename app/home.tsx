@@ -4,6 +4,9 @@ import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import Header from "../components/header";
+
+
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -70,7 +73,8 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 20, marginBottom: 20 }}>Ota kuva suustasi</Text>
+      <Header />
+      <Text style={styles.title}>Ota kuva suustasi</Text>
       <View style={styles.buttonContainer}>
         <Button title="📷 Ota kuva" onPress={takePhoto} />
       </View>
@@ -119,5 +123,13 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginRight: 10,
+  },
+  title: {
+    fontSize: 20, 
+    marginBottom: 20,
+    color: "#081C15",
+    marginTop: 60,
+    textAlign: "center",
+    width: "100%",
   },
 });
