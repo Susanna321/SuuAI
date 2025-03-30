@@ -18,6 +18,7 @@ const firebaseConfig = {
   measurementId: "xxxxxx"
 };
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // Otetaan käyttöön autentikaatio
